@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculatrice Arithmétique</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <fieldset>
+            <legend>Calculatrice Arithmetique</legend>
+        </fieldset>
+
+
+        <fieldset>
+            <input type="text" id="ecran" readonly>
+        </fieldset>
+
+        <fieldset>
+            <button onclick="ajouterChiffre('0')">0</button>
+            <button onclick="ajouterChiffre('1')">1</button>
+            <button onclick="ajouterChiffre('2')">2</button>
+            <button onclick="ajouterChiffre('3')">3</button>
+            <button onclick="ajouterChiffre('4')">4</button>
+            <button onclick="ajouterChiffre('5')">5</button>
+            <button onclick="ajouterChiffre('6')">6</button>
+            <button onclick="ajouterChiffre('7')">7</button>
+            <button onclick="ajouterChiffre('8')">8</button>
+            <button onclick="ajouterChiffre('9')">9</button>
+            <button onclick="ajouterPoint()">.</button>
+            <button onclick="effacerEcran()"><img src="trash-2.svg" alt=""></button>
+        </fieldset>
+
+        <fieldset>
+            <button onclick="ajouterOperateur('+')">+</button>
+            <button onclick="ajouterOperateur('-')">-</button>
+            <button onclick="ajouterOperateur('*')">×</button>
+            <button onclick="ajouterOperateur('/')">/</button>
+            <button onclick="calculerRacineCarree()">√</button>
+            <button onclick="calculerFactorielle()">n!</button>
+            <button onclick="ajouterOperateur('%')">%</button>
+        </fieldset>
+
+
+        <fieldset>
+            <button onclick="calculerResultat()">=</button>
+        </fieldset>
+    </div>
+
+    <script>
+        let ecran = document.getElementById("ecran");
+
+        function ajouterChiffre(chiffre) {
+            ecran.value += chiffre;
+        }
+
+        function ajouterOperateur(operateur) {
+            let dernierCaractere = ecran.value.slice(-1);
+            if (ecran.value !== "" && !["+", "-", "*", "/", "%"].includes(dernierCaractere)) {
+                ecran.value += operateur;
+            }
+        }
+
+
+        function ajouterPoint() {
+            let dernierNombre = ecran.value.split(/[\+\-\*\/%]/).pop();
+            if (!dernierNombre.includes(".")) {
+                ecran.value += ".";
+            }
+        }
+
+        function effacerEcran() {
+            ecran.value = "";
+        }
+
+
+        function calculerResultat() {
+            try {
+                ecran.value = eval(ecran.value);
+            } catch (error) {
+                ecran.value = "Erreur";
+            }
+        }
+
+        function calculerRacineCarree() {
+            if (ecran.value !== "") {
+                let nombre = parseFloat(ecran.value);
+                if (nombre >= 0) {
+                    ecran.value = Math.sqrt(nombre);
+                } else {
+                    ecran.value = "Erreur";
+                }
+            }
+        }
+
+
+        function calculerFactorielle() {
+            if (ecran.value !== "") {
+                let nombre = parseInt(ecran.value);
+                if (nombre >= 0 && Number.isInteger(nombre)) {
+                    let resultat = 1;
+                    for (let i = 1; i <= nombre; i++) {
+                        resultat *= i;
+                    }
+                    ecran.value = resultat;
+                } else {
+                    ecran.value = "Erreur";
+                }
+            }
+        }
+            // bloc try catch pour gerer les erreurs
+            // eval permet d'evaluer une expression
+    </script>
+</body>
+</html>
